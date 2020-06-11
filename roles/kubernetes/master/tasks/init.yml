@@ -10,7 +10,7 @@
 - name: Init Kubernetes cluster
   when: reset_cluster is succeeded
   shell: |
-    kubeadm init --config {{ kubeadm_config }}
+    kubeadm init --config {{ kubeadm_config }} --upload-certs
   register: init_cluster
 
 - name: Create Kubernetes config directory

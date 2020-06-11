@@ -9,10 +9,10 @@ certificate_key: e6a2eb8581237ab72a4f494f30285ec12a9694d750b9785706a83bfcbbbd220
 # ClusterConfiguration
 ## common
 kube_version: v1.18.3
-cluster_name: cluster1
+cluster_name: test-cluster
 certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
-control_plane_endpoint: 192.168.202.21
+control_plane_endpoint: 192.168.202.21:6443
 ## network
 service_subnet: "10.96.0.0/12"
 pod_subnet: "10.244.0.0/16"
