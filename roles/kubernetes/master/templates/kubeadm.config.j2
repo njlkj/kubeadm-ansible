@@ -1,0 +1,59 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+certificateKey: {{ certificate_key }}
+bootstrapTokens:
+- token:  {{ token }}
+  description: "kubeadm bootstrap token"
+  ttl: {{ token_ttl }}
+
+#localAPIEndpoint:
+#nodeRegistration:
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+kubernetesVersion: {{ kube_version }}
+controlPlaneEndpoint: {{ control_plane_endpoint }}
+certificatesDir: {{ certificates_dir }}
+imageRepository: {{ image_repository }}
+clusterName: {{ cluster_name }}
+
+apiServer:
+  extraArgs:
+    advertise-address: {{ inventory_hostname }}
+    anonymous-auth: "false"
+    authorization-mode: "Node,RBAC"
+#  extraVolumes:
+#  certSANs:
+#  timeoutForControlPlane: 4m0s
+
+#controllerManager:
+#  extraArgs:
+#  extraVolumes:
+
+#scheduler:
+#  extraArgs:
+#  extraVolumes:
+
+etcd:
+  local:
+    imageRepository: {{ etcd_image_repository }}
+    imageTag: {{ etcd_image_tag }}
+    dataDir: {{ etcd_data_dir }}
+#    extraArgs:
+#    serverCertSANs:
+#    peerCertSANs:
+
+networking:
+  serviceSubnet: {{ service_subnet }}
+  podSubnet: {{ pod_subnet }}
+  dnsDomain: {{ dns_domain }}
+
+
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+# kubelet specific options here
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+# kube-proxy specific options here
