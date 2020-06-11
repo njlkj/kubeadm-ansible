@@ -28,7 +28,7 @@ clusterName: "{{ cluster_name }}"
 apiServer:
   extraArgs:
     advertise-address: "{{ inventory_hostname }}"
-    anonymous-auth: "false"
+    anonymous-auth: "{{ anonymous_auth }}"
     authorization-mode: "Node,RBAC"
 #  extraVolumes:
 #  certSANs:

@@ -2,6 +2,7 @@
 # ansible_user: likejun@oppo.com
 
 # InitConfiguration
+## common
 token: b0f7b8.8d1767876297d85c
 token_ttl: 24h
 certificate_key: e6a2eb8581237ab72a4f494f30285ec12a9694d750b9785706a83bfcbbbd2204
@@ -19,6 +20,10 @@ cluster_name: test-cluster
 certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
 control_plane_endpoint: 192.168.202.21:6443
+## apiServer
+anonymous_auth: false
+authorization_mode: "Node,RBAC"
+
 ## network
 service_subnet: "10.96.0.0/12"
 pod_subnet: "10.244.0.0/16"
