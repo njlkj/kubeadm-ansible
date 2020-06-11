@@ -1,30 +1,30 @@
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
-certificateKey: {{ certificate_key }}
+certificateKey: "{{ certificate_key }}"
 bootstrapTokens:
-- token:  {{ token }}
+- token: "{{ token }}"
   description: "kubeadm bootstrap token"
-  ttl: {{ token_ttl }}
+  ttl: "{{ token_ttl }}"
 
 #localAPIEndpoint:
 nodeRegistration:
   kubeletExtraArgs:
-    hostname-override: {{ inventory_hostname }}
-    cgroup-driver: {{ cgroup_driver }}
-    network-plugin: {{ network_plugin }}
-    pod-infra-container-image: {{ pod_infra_container_image }}
+    hostname-override: "{{ inventory_hostname }}"
+    cgroup-driver: "{{ cgroup_driver }}"
+    network-plugin: "{{ network_plugin }}"
+    pod-infra-container-image: "{{ pod_infra_container_image }}"
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
-kubernetesVersion: {{ kube_version }}
-controlPlaneEndpoint: {{ control_plane_endpoint }}
-certificatesDir: {{ certificates_dir }}
-imageRepository: {{ image_repository }}
-clusterName: {{ cluster_name }}
+kubernetesVersion: "{{ kube_version }}"
+controlPlaneEndpoint: "{{ control_plane_endpoint }}"
+certificatesDir: "{{ certificates_dir }}"
+imageRepository: "{{ image_repository }}"
+clusterName: "{{ cluster_name }}"
 
 apiServer:
   extraArgs:
-    advertise-address: {{ inventory_hostname }}
+    advertise-address: "{{ inventory_hostname }}"
     anonymous-auth: "false"
     authorization-mode: "Node,RBAC"
 #  extraVolumes:
@@ -41,29 +41,29 @@ apiServer:
 
 etcd:
   local:
-    imageRepository: {{ etcd_image_repository }}
-    imageTag: {{ etcd_image_tag }}
-    dataDir: {{ etcd_data_dir }}
+    imageRepository: "{{ etcd_image_repository }}"
+    imageTag: "{{ etcd_image_tag }}"
+    dataDir: "{{ etcd_data_dir }}"
 #    extraArgs:
 #    serverCertSANs:
 #    peerCertSANs:
 
 networking:
-  serviceSubnet: {{ service_subnet }}
-  podSubnet: {{ pod_subnet }}
-  dnsDomain: {{ dns_domain }}
+  serviceSubnet: "{{ service_subnet }}"
+  podSubnet: "{{ pod_subnet }}"
+  dnsDomain: "{{ dns_domain }}"
 
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
-  clusterDomain: {{ cluster_domain }}
-  clusterDNS: {{ cluster_dns }}
-  maxPods: {{ max_pods }}
-  nodeStatusUpdateFrequency : {{ node_status_update_frequency }}
-  kubeAPIQPS: {{ kube_api_qps }}
-  kubeAPIBurst: {{ kube_api_burst }}
-  podPidsLimit: {{ pod_pids_limit }}
-  failSwapOn: {{ fail_swap_on }}
+  clusterDomain: "{{ cluster_domain }}"
+  clusterDNS: "{{ cluster_dns }}"
+  maxPods: "{{ max_pods }}"
+  nodeStatusUpdateFrequency : "{{ node_status_update_frequency }}"
+  kubeAPIQPS: "{{ kube_api_qps }}"
+  kubeAPIBurst: "{{ kube_api_burst }}"
+  podPidsLimit: "{{ pod_pids_limit }}"
+  failSwapOn: "{{ fail_swap_on }}"
   allowedUnsafeSysctls:
   - kernel.msg*
   - kernel.shm*
