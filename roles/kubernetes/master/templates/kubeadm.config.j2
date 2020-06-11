@@ -1,3 +1,4 @@
+---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 certificateKey: "{{ certificate_key }}"
@@ -25,7 +26,7 @@ clusterName: "{{ cluster_name }}"
 apiServer:
   extraArgs:
     advertise-address: "{{ inventory_hostname }}"
-    anonymous-auth: "false"
+    anonymous-auth: false
     authorization-mode: "Node,RBAC"
 #  extraVolumes:
 #  certSANs:
@@ -56,26 +57,17 @@ networking:
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
-  clusterDomain: "{{ cluster_domain }}"
-  clusterDNS: "{{ cluster_dns }}"
-  maxPods: "{{ max_pods }}"
-  nodeStatusUpdateFrequency : "{{ node_status_update_frequency }}"
-  kubeAPIQPS: "{{ kube_api_qps }}"
-  kubeAPIBurst: "{{ kube_api_burst }}"
-  podPidsLimit: "{{ pod_pids_limit }}"
-  failSwapOn: "{{ fail_swap_on }}"
-  allowedUnsafeSysctls:
+clusterDomain: "{{ cluster_domain }}"
+clusterDNS: "{{ cluster_dns }}"
+maxPods: "{{ max_pods }}"
+nodeStatusUpdateFrequency : "{{ node_status_update_frequency }}"
+kubeAPIQPS: "{{ kube_api_qps }}"
+kubeAPIBurst: "{{ kube_api_burst }}"
+podPidsLimit: "{{ pod_pids_limit }}"
+failSwapOn: "{{ fail_swap_on }}"
+allowedUnsafeSysctls:
   - kernel.msg*
   - kernel.shm*
   - kernel.sem
   - net.*
   - fs.mqueue.*
-
-
-#  systemReserved
-
-
-#---
-#apiVersion: kubeproxy.config.k8s.io/v1alpha1
-#kind: KubeProxyConfiguration
-# kube-proxy specific options here
