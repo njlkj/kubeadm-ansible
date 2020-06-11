@@ -5,6 +5,12 @@
 token: b0f7b8.8d1767876297d85c
 token_ttl: 24h
 certificate_key: e6a2eb8581237ab72a4f494f30285ec12a9694d750b9785706a83bfcbbbd2204
+## nodeRegistration
+### kubeletExtraArgs
+cgroup_driver: cgroupfs
+network_plugin: cni
+pod_infra_container_image: k8s.gcr.io/pause:3.2
+
 
 # ClusterConfiguration
 ## common
@@ -22,12 +28,24 @@ etcd_image_repository: k8s.gcr.io
 etcd_image_tag: 3.2.24-0
 etcd_data_dir: /var/lib/etcd
 
+#KubeletConfiguration
+cluster_dns: 10.96.0.10
+max_pods: 110
+node_status_update_frequency: 20s
+kube_api_qps: 100
+kube_api_burst: 150
+pod_pids_limit: 15000
+fail_swap_on: false
+
 systemd_dir: /lib/systemd/system
 system_env_dir: /etc/sysconfig
 network_dir: /etc/kubernetes/network
 kubeadm_config: /etc/kubernetes/kubeadm.conf
 admin_config: /etc/kubernetes/admin.conf
 kube_addon_dir: /etc/kubernetes/addon
+
+
+
 
 
 # Network implementation('flannel', 'calico', 'canal')
