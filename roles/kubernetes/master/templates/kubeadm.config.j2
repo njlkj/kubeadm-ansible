@@ -9,11 +9,13 @@ bootstrapTokens:
 
 #localAPIEndpoint:
 nodeRegistration:
+  name: "{{ inventory_hostname }}"
   kubeletExtraArgs:
     hostname-override: "{{ inventory_hostname }}"
     cgroup-driver: "{{ cgroup_driver }}"
     network-plugin: "{{ network_plugin }}"
     pod-infra-container-image: "{{ pod_infra_container_image }}"
+
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
@@ -58,16 +60,17 @@ networking:
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 clusterDomain: "{{ cluster_domain }}"
-clusterDNS: "{{ cluster_dns }}"
-maxPods: "{{ max_pods }}"
-nodeStatusUpdateFrequency : "{{ node_status_update_frequency }}"
-kubeAPIQPS: "{{ kube_api_qps }}"
-kubeAPIBurst: "{{ kube_api_burst }}"
-podPidsLimit: "{{ pod_pids_limit }}"
-failSwapOn: "{{ fail_swap_on }}"
+clusterDNS:
+  - "{{ cluster_dns }}"
+maxPods: {{ max_pods }}
+nodeStatusUpdateFrequency : {{ node_status_update_frequency }}
+kubeAPIQPS: {{ kube_api_qps }}
+kubeAPIBurst: "{{ kube_api_burst }}
+podPidsLimit: {{ pod_pids_limit }}
+failSwapOn: {{ fail_swap_on }}
 allowedUnsafeSysctls:
-  - kernel.msg*
-  - kernel.shm*
-  - kernel.sem
-  - net.*
-  - fs.mqueue.*
+  - "kernel.msg*"
+  - "kernel.shm*"
+  - "kernel.sem"
+  - "net.*"
+  - "fs.mqueue.*"
