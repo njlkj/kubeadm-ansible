@@ -28,7 +28,7 @@ clusterName: "{{ cluster_name }}"
 apiServer:
   extraArgs:
     advertise-address: "{{ inventory_hostname }}"
-    anonymous-auth: false
+    anonymous-auth: "false"
     authorization-mode: "Node,RBAC"
 #  extraVolumes:
 #  certSANs:
@@ -65,7 +65,7 @@ clusterDNS:
 maxPods: {{ max_pods }}
 nodeStatusUpdateFrequency : {{ node_status_update_frequency }}
 kubeAPIQPS: {{ kube_api_qps }}
-kubeAPIBurst: "{{ kube_api_burst }}
+kubeAPIBurst: {{ kube_api_burst }}
 podPidsLimit: {{ pod_pids_limit }}
 failSwapOn: {{ fail_swap_on }}
 allowedUnsafeSysctls:
