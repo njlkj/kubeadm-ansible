@@ -5,8 +5,10 @@
   register: reset_cluster
 
 - name: Copy kubeadm conf to drop-in directory
-  template: src=kubeadm.config.j2 dest={{ kubeadm_config }}
-  backup: yes
+  template:
+    src: kubeadm.config.j2
+    dest: {{ kubeadm_config }}
+    backup: true
 
 - name: Init Kubernetes cluster
   when: reset_cluster is succeeded
