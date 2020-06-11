@@ -30,6 +30,7 @@ etcd_data_dir: /var/lib/etcd
 
 #KubeletConfiguration
 cluster_dns: 10.96.0.10
+cluster_domain: cluster.local
 max_pods: 110
 node_status_update_frequency: 20s
 kube_api_qps: 100
