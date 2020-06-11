@@ -10,6 +10,7 @@
     kubeadm init --service-cidr {{ service_cidr }} \
                  --kubernetes-version {{ kube_version }} \
                  --pod-network-cidr {{ pod_network_cidr }} \
+                 --certificate-key {{ certificate_key }}
                  --token {{ token }} \
                  --apiserver-advertise-address {{ master_ip }} \
                  {{ kubeadm_opts }} \
