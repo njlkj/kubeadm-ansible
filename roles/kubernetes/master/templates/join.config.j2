@@ -1,0 +1,19 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: "{{ control_plane_endpoint }}"
+    token: "{{ token }}"
+    caCertHashes: "{{ caCertHashes }}"
+  timeout: 5m0s
+controlPlane
+  certificateKey: "{{ certificate_key }}"
+
+nodeRegistration:
+  name: "{{ inventory_hostname }}"
+  kubeletExtraArgs:
+    hostname-override: "{{ inventory_hostname }}"
+    cgroup-driver: "{{ cgroup_driver }}"
+    network-plugin: "{{ network_plugin }}"
+    pod-infra-container-image: "{{ pod_infra_container_image }}"
