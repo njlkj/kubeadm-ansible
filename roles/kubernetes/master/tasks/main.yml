@@ -4,28 +4,31 @@
     path: "/etc/kubernetes/pki/ca.key"
   register: kubeadm_ca
 
-- name: Init cluster if needed
-  include_tasks: init.yml
-  when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
-  run_once: yes
+- block:
+  - name: Init cluster if needed
+    include_tasks: init.yml
+    when: groups.master.0 == inventory_hostname
+    run_once: yes
 
-- name: Join cluster if needed
-  include_tasks: join.yml
-  when: (not kubeadm_ca.stat.exists ) and (groups.master.0 != inventory_hostname)
+  - name: Join cluster if needed
+    include_tasks: join.yml
+    when: groups.master.0 != inventory_hostname
 
-- name: Enable and check kubelet service
-  systemd:
-    name: kubelet
-    daemon_reload: yes
-    state: started
-    enabled: yes
-  register: started_kubelet
+  - name: Enable and check kubelet service
+    systemd:
+      name: kubelet
+      daemon_reload: yes
+      state: started
+      enabled: yes
+    register: started_kubelet
 
-- name: "Copy config file"
-  fetch:
-    src: /etc/kubernetes/admin.conf
-    dest: "{{ lookup('env', 'HOME') }}/admin.conf"
-    flat: yes
-  run_once: yes
-  ignore_errors: yes
-  when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
+#  - name: "Copy config file"
+#    fetch:
+#      src: /etc/kubernetes/admin.conf
+#      dest: "{{ lookup('env', 'HOME') }}/admin.conf"
+#      flat: yes
+#    run_once: yes
+#    ignore_errors: yes
+#    when: groups.master.0 == inventory_hostname
+
+  when: not kubeadm_ca.stat.exists
