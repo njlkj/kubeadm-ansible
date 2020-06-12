@@ -6,6 +6,7 @@
     - { role: docker, tags: docker }
 
 - hosts: master
+  serial: 1
   gather_facts: yes
   become: yes
   roles:
