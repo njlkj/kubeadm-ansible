@@ -19,7 +19,7 @@ kube_version: v1.18.3
 cluster_name: test-cluster
 certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
-control_plane_endpoint: 192.168.202.21:6443
+control_plane_endpoint: 192.168.202.21
 ## apiServer
 
 ## network

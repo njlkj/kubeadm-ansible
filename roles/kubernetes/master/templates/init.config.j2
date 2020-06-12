@@ -20,7 +20,7 @@ nodeRegistration:
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 kubernetesVersion: "{{ kube_version }}"
-controlPlaneEndpoint: "{{ control_plane_endpoint }}"
+controlPlaneEndpoint: "{{ control_plane_endpoint }}:6443"
 certificatesDir: "{{ certificates_dir }}"
 imageRepository: "{{ image_repository }}"
 clusterName: "{{ cluster_name }}"
@@ -32,10 +32,12 @@ apiServer:
     insecure-port: "8080"
     enable-swagger-ui: "true"
     v: "4"
-
-#  certSANs:
-
-#  timeoutForControlPlane: 4m0s
+  certSANs:
+    - "{{ control_plane_endpoint }}"
+    - "{{ groups.master.0 }}"
+    - "{{ groups.master.1 }}"
+    - "{{ groups.master.2 }}"
+  timeoutForControlPlane: 4m0s
 
 controllerManager:
   extraArgs:
@@ -45,16 +47,25 @@ controllerManager:
 
 scheduler:
   extraArgs:
+  config:
     v: "4"
 
 etcd:
   local:
-    imageRepository: "{{ etcd_image_repository }}"
-    imageTag: "{{ etcd_image_tag }}"
-    dataDir: "{{ etcd_data_dir }}"
-#    extraArgs:
-#    serverCertSANs:
-#    peerCertSANs:
+    extraArgs
+      name: "{{ etcd_name }}"
+      listen-metrics-urls: "https://{{ inventory_hostname }}:2379"
+      imageRepository: " k8s.gcr.io"
+      imageTag: "3.4.3-0"
+      dataDir: "/var/lib/etcd"
+    serverCertSANs:
+      - "{{ groups.master.0 }}"
+      - "{{ groups.master.1 }}"
+      - "{{ groups.master.2 }}"
+    peerCertSANs:
+      - "{{ groups.master.0 }}"
+      - "{{ groups.master.1 }}"
+      - "{{ groups.master.2 }}"
 
 networking:
   serviceSubnet: "{{ service_subnet }}"
