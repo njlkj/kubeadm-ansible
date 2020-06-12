@@ -57,7 +57,8 @@ etcd:
     dataDir: "/var/lib/etcd"
     extraArgs:
       name: "{{ etcd_name }}"
-      listen-metrics-urls: "https://{{ inventory_hostname }}:2379"
+      listen-metrics-urls: "https://{{ inventory_hostname }}:2381"
+      initial-cluster:"{{ etcd_name }}=https://{{ inventory_hostname }}:2380"
     serverCertSANs:
       - "{{ groups.master.0 }}"
       - "{{ groups.master.1 }}"
