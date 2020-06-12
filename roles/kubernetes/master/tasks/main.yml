@@ -9,8 +9,6 @@
   when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
   run_once: yes
 
-- name: Set
-
 - name: Join cluster if needed
   include_tasks: join.yml
   when: (not kubeadm_ca.stat.exists ) and (groups.master.0 != inventory_hostname)
