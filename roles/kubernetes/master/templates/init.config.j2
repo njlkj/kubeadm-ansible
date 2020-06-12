@@ -31,6 +31,7 @@ apiServer:
     authorization-mode: "Node,RBAC"
     insecure-port: "8080"
     enable-swagger-ui: "true"
+    etcd-servers: "https://{{ groups.master.0 }}:2379,https://{{ groups.master.1 }}:2379,https://{{ groups.master.2 }}:2379"
     v: "4"
   certSANs:
     - "{{ control_plane_endpoint }}"
