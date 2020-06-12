@@ -32,4 +32,4 @@
       run_once: yes
       ignore_errors: yes
       when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
-  when: (not kubeadm_ca.stat.exists ) and (hostvars[groups['master'][0]]['initStat'] == 0)
+  when: (not kubeadm_ca.stat.exists ) and (hostvars[groups['master'][0]]['initStat'] == "0")
