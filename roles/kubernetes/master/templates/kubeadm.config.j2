@@ -28,32 +28,24 @@ clusterName: "{{ cluster_name }}"
 apiServer:
   extraArgs:
     advertise-address: "{{ inventory_hostname }}"
-    anonymous-auth: "{{ anonymous_auth }}"
     authorization-mode: "Node,RBAC"
     insecure-port: "8080"
     enable-swagger-ui: "true"
-    log-dir: "/home/logs/kube/"
     v: "4"
-  extraVolumes:
-  - name: "log-dir"
-    hostPath: "/home/logs/kube/"
-    mountPath: "/home/logs/kube/"
-    readOnly: false
-    pathType: File
-  certSANs:
-  - "{{ inventory_hostname }}"
-  - "0.0.0.0"
-  - "127.0.0.1"
+
+#  certSANs:
 
 #  timeoutForControlPlane: 4m0s
 
-#controllerManager:
-#  extraArgs:
+controllerManager:
+  extraArgs:
+    v: "4"
+
 #  extraVolumes:
 
-#scheduler:
-#  extraArgs:
-#  extraVolumes:
+scheduler:
+  extraArgs:
+    v: "4"
 
 etcd:
   local:

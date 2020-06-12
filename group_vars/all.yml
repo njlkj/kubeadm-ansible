@@ -21,8 +21,6 @@ certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
 control_plane_endpoint: 192.168.202.21:6443
 ## apiServer
-anonymous_auth: false
-authorization_mode: "Node,RBAC"
 
 ## network
 service_subnet: "10.96.0.0/12"
