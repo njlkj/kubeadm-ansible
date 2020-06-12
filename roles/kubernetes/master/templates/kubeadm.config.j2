@@ -30,7 +30,18 @@ apiServer:
     advertise-address: "{{ inventory_hostname }}"
     anonymous-auth: "{{ anonymous_auth }}"
     authorization-mode: "Node,RBAC"
-#  extraVolumes:
+    insecure-port: "8080"
+    enable-swagger-ui: "true"
+    log-dir: "/home/logs/kube/"
+    v: "4"
+  extraVolumes:
+  - name: "log-dir"
+    hostPath: "/home/logs/kube/"
+    mountPath: "/home/logs/kube/"
+    readOnly: false
+    pathType: File
+
+
 #  certSANs:
 #  timeoutForControlPlane: 4m0s
 
