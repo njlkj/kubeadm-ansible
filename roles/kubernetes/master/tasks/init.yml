@@ -11,7 +11,7 @@
     src: init.config.j2
     dest: "{{ kubeadm_config }}"
     backup: true
-git
+
 - name: Init Kubernetes cluster
   when: reset_cluster is succeeded
   shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
