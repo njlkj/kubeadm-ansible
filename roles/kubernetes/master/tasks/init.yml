@@ -12,7 +12,7 @@
 
 - name: Init Kubernetes cluster
   when: reset_cluster is succeeded
-  shell: kubeadm init --config {{ kubeadm_config }} --upload-certs
+  shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
   register: init_cluster
 
 - name: Create Kubernetes config directory
