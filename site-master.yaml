@@ -5,14 +5,8 @@
   roles:
     - { role: docker, tags: docker }
 
-- hosts: master[0]
+- hosts: master
   gather_facts: yes
   become: yes
   roles:
-    - { role: kubernetes/master, tags: init }
-
-- hosts: master[1:3]
-  gather_facts: yes
-  become: yes
-  roles:
-    - { role: kubernetes/master, tags: join }
+    - { role: kubernetes/master, tags: master }

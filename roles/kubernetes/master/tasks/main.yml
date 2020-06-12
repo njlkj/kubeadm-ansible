@@ -1,5 +1,4 @@
 ---
-
 - name: Check if kubeadm has already run
   stat:
     path: "/etc/kubernetes/pki/ca.key"
@@ -7,14 +6,12 @@
 
 - name: Init cluster if needed
   include_tasks: init.yml
-  when: not kubeadm_ca.stat.exists
+  when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
   run_once: yes
-  tags: init
 
 - name: Join cluster if needed
   include_tasks: join.yml
-  when: not kubeadm_ca.stat.exists
-  tags: join
+  when: (not kubeadm_ca.stat.exists ) and (groups.master.0 != inventory_hostname)
 
 - name: Enable and check kubelet service
   systemd:
@@ -22,8 +19,7 @@
     daemon_reload: yes
     state: started
     enabled: yes
-#  register: started_kubelet
-  when: not kubeadm_ca.stat.exists
+  register: started_kubelet
 
 - name: "Copy config file"
   fetch:
@@ -32,5 +28,4 @@
     flat: yes
   run_once: yes
   ignore_errors: yes
-  when: not kubeadm_ca.stat.exists
-  tags: init
+  when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
