@@ -6,18 +6,14 @@
 - name: Copy kubeadm conf to drop-in directory
   when: reset_cluster is succeeded
   template:
-    src: init.config.j2
+    src: kubeadm.config.j2
     dest: "{{ kubeadm_config }}"
     backup: true
-
-- set_fact: initStat=1
 
 - name: Init Kubernetes cluster
   when: reset_cluster is succeeded
   shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
   register: init_cluster
-
-- set_fact: initStat={{ init_cluster.rc }}
 
 - name: Get ca cert hash
   when: init_cluster is succeeded
@@ -25,7 +21,6 @@
   register: caCertHashes
 
 - set_fact: caCertHashes={{ caCertHashes.stdout }}
-
 
 - name: Create Kubernetes config directory
   when: init_cluster is succeeded
