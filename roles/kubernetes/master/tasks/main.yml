@@ -7,13 +7,14 @@
 
 - name: Init cluster if needed
   include_tasks: init.yml
-  when: not kubeadm_ca.stat.exists and 'groups.master[0] == inventory_hostname'
+  when: not kubeadm_ca.stat.exists
   run_once: yes
+  tags: init
 
 - name: Join cluster if needed
   include_tasks: join.yml
-  when: not kubeadm_ca.stat.exists and 'groups.master[0] != inventory_hostname'
-  run_once: yes
+  when: not kubeadm_ca.stat.exists
+  tags: join
 
 - name: Enable and check kubelet service
   systemd:
@@ -21,7 +22,8 @@
     daemon_reload: yes
     state: started
     enabled: yes
-  register: started_kubelet
+#  register: started_kubelet
+  when: not kubeadm_ca.stat.exists
 
 - name: "Copy config file"
   fetch:
@@ -30,4 +32,5 @@
     flat: yes
   run_once: yes
   ignore_errors: yes
-  when: 'groups.master[0] == inventory_hostname'
+  when: not kubeadm_ca.stat.exists
+  tags: init
