@@ -9,14 +9,14 @@
   include_tasks: init.yml
   when:
     - not kubeadm_ca.stat.exists
-    - groups['master'][0] == {{ inventory_hostname }}
+    - '"{{ hostvars[groups['master'][0]] }}" == "{{ inventory_hostname }}"'
   run_once: yes
 
 - name: Join cluster if needed
   include_tasks: join.yml
   when:
     - not kubeadm_ca.stat.exists
-    - groups['master'][0] != {{ inventory_hostname }}
+    - '"{{ hostvars[groups['master'][0]] }}" != "{{ inventory_hostname }}"'
   run_once: yes
 
 - name: Enable and check kubelet service
@@ -35,4 +35,4 @@
   run_once: yes
   ignore_errors: yes
   when:
-    - groups['master'][0] != {{ inventory_hostname }}
+    - '"{{ hostvars[groups['master'][0]] }}" != "{{ inventory_hostname }}"'
