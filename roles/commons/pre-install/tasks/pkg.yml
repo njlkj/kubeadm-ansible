@@ -1,18 +1,4 @@
 ---
-
-#- name: Add Kubernetes APT GPG key
-#  when: ansible_os_family == "Debian"
-#  apt_key:
-#    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-#    state: present
-#
-#- name: Add Kubernetes APT repository
-#  when: ansible_os_family == "Debian"
-#  apt_repository:
-#    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
-#    state: present
-#    filename: 'kubernetes'
-
 - name: Add Kubernetes yum repository
   when: ansible_os_family == "RedHat"
   yum_repository:
@@ -31,10 +17,3 @@
     state: installed
   with_items: "{{ pkgs }}"
 
-#- name: Install kubernetes packages (Debian/Ubuntu)
-#  when: ansible_os_family == "Debian"
-#  apt:
-#    name: "{{ pkgs }}"
-#    update_cache: yes
-#    state: present
-#  with_items: "{{ pkgs }}"

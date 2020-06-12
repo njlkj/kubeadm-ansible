@@ -3,6 +3,14 @@
 - name: Install Kubernetes packages
   include_tasks: pkg.yml
 
+- name: Remove firewalld
+  yum:
+    name:
+      - firewalld
+      - python-firewall
+      - firewalld-filesystem
+    state: absent
+
 - name: Disable system swap
   shell: "swapoff -a"
 
