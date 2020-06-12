@@ -3,6 +3,8 @@
   shell: "kubeadm reset --force"
   register: reset_cluster
 
+- set_fact: caCertHashes="not need"
+
 - name: Copy kubeadm conf to drop-in directory
   when: reset_cluster is succeeded
   template:
