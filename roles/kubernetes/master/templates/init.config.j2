@@ -55,7 +55,7 @@ etcd:
     imageRepository: "k8s.gcr.io"
     imageTag: "3.4.3-0"
     dataDir: "/var/lib/etcd"
-    extraArgs:
+#    extraArgs:
     serverCertSANs:
       - "{{ groups.master.0 }}"
       - "{{ groups.master.1 }}"
