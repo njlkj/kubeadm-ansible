@@ -9,8 +9,7 @@
   when: (not kubeadm_ca.stat.exists ) and (groups.master.0 == inventory_hostname)
   run_once: yes
 
-- debug:
-    msg: hostvars[groups['master'][0]]['initStat'] == 0
+- debug: var=hostvars[groups['master'][0]]['initStat']
 
 - block:
     - name: Join cluster if needed
