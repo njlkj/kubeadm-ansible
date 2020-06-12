@@ -52,12 +52,12 @@ scheduler:
 
 etcd:
   local:
-    extraArgs
+    imageRepository: " k8s.gcr.io"
+    imageTag: "3.4.3-0"
+    dataDir: "/var/lib/etcd"
+    extraArgs:
       name: "{{ etcd_name }}"
       listen-metrics-urls: "https://{{ inventory_hostname }}:2379"
-      imageRepository: " k8s.gcr.io"
-      imageTag: "3.4.3-0"
-      dataDir: "/var/lib/etcd"
     serverCertSANs:
       - "{{ groups.master.0 }}"
       - "{{ groups.master.1 }}"

@@ -13,6 +13,7 @@
     backup: true
 
 - name: Join to Kubernetes cluster
+  serial: 1
   when: reset_cluster is succeeded
   shell: kubeadm join --config {{ kubeadm_config }}
   register: join_cluster
