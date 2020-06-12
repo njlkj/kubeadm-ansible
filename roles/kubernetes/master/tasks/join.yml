@@ -1,0 +1,9 @@
+---
+- name: Reset Kubernetes component
+  shell: "kubeadm reset --force"
+  register: reset_cluster
+
+- name: Join to Kubernetes cluster
+  when: reset_cluster is succeeded
+  shell: echo hello
+#  shell: kubeadm join {{ control_plane_endpoint }} --token {{ token }} --discovery-token-ca-cert-hash {{ }} --control-plane --certificate-key {{ certificate_key }}
