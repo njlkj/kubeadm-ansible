@@ -14,13 +14,13 @@
     include_tasks: join.yml
     when: groups.master.0 != inventory_hostname
 
-  - name: Enable and check kubelet service
-    systemd:
-      name: kubelet
-      daemon_reload: yes
-      state: started
-      enabled: yes
-    register: started_kubelet
+#  - name: Enable and check kubelet service
+#    systemd:
+#      name: kubelet
+#      daemon_reload: yes
+#      state: started
+#      enabled: yes
+#    register: started_kubelet
 
 #  - name: "Copy config file"
 #    fetch:
