@@ -1,5 +1,4 @@
 ---
-
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force"
   register: reset_cluster
@@ -21,7 +20,7 @@
   shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
   register: caCertHashes
 
-- set_fact: caCertHashes={{ cluster_join.stdout }}
+- set_fact: caCertHashes={{ caCertHashes.stdout }}
 
 - name: Create Kubernetes config directory
   when: init_cluster is succeeded
