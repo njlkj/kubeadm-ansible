@@ -40,9 +40,9 @@ apiServer:
     mountPath: "/home/logs/kube/"
     readOnly: false
     pathType: File
+  certSANs:
+  - "{{ inventory_hostname }}"
 
-
-#  certSANs:
 #  timeoutForControlPlane: 4m0s
 
 #controllerManager:
