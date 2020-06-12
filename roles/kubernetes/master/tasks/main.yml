@@ -11,7 +11,6 @@
 
 - block:
     - name: Join cluster if needed
-      when: init_cluster is succeeded
       include_tasks: join.yml
       when: (not kubeadm_ca.stat.exists ) and (groups.master.0 != inventory_hostname)
 
