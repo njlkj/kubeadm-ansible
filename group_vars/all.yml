@@ -4,7 +4,7 @@
 # InitConfiguration
 ## common
 token: b0f7b8.8d1767876297d85c
-token_ttl: 3650d
+token_ttl: 240000h
 certificate_key: e6a2eb8581237ab72a4f494f30285ec12a9694d750b9785706a83bfcbbbd2204
 ## nodeRegistration
 ### kubeletExtraArgs
