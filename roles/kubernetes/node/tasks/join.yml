@@ -5,7 +5,7 @@
 
 - name: Get ca cert hash
   shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
-  delegate_to: groups.master.0
+  delegate_to: "{{ groups.master.0 }}"
   register: caCertHashes
 
 - block:
