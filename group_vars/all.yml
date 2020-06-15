@@ -14,7 +14,7 @@ pod_infra_container_image: k8s.gcr.io/pause:3.2
 
 # ClusterConfiguration
 ## common
-kube_version: v1.18.3
+kube_version: 1.18.3
 cluster_name: test-cluster
 certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
