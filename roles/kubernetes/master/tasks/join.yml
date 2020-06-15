@@ -3,39 +3,45 @@
   shell: "kubeadm reset --force"
   register: reset_cluster
 
-- name: Get ca cert hash
-  when: init_cluster is succeeded
-  shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
-  register: caCertHashes
-  run_once: yes
-  delegate_to: "{{ groups.master.0 }}"
-- set_fact: caCertHashes={{ caCertHashes.stdout }}
-  run_once: yes
+- block:
 
-- name: Copy kubeadm conf to drop-in directory
+  - name: Get ca cert hash
+    shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
+    delegate_to: "{{ groups.master.0 }}"
+    register: caCertHashes
+    run_once: yes
+    changed_when: false
+
+  - set_fact: caCertHashes={{ caCertHashes.stdout }}
+    run_once: yes
+    changed_when: false
+
+  - name: Copy kubeadm conf to drop-in directory
+    template:
+      src: join.config.j2
+      dest: "{{ kubeadm_config }}"
+      backup: true
+
+  - name: Join to Kubernetes cluster
+    shell: kubeadm join --config {{ kubeadm_config }}
+    register: join_cluster
+
   when: reset_cluster is succeeded
-  template:
-    src: join.config.j2
-    dest: "{{ kubeadm_config }}"
-    backup: true
 
-- name: Join to Kubernetes cluster
-  when: reset_cluster is succeeded
-  shell: kubeadm join --config {{ kubeadm_config }}
-  register: join_cluster
+- block:
 
-- name: Create Kubernetes config directory
+  - name: Create Kubernetes config directory
+    file:
+      path: ".kube/"
+      state: directory
+
+  - name: Copy admin.conf to Home directory
+    copy:
+      src: "{{ admin_config }}"
+      dest: ".kube/config"
+      owner: "{{ ansible_user | default(ansible_user_id) }}"
+      group: "{{ ansible_user | default(ansible_user_id) }}"
+      mode: 0755
+      remote_src: true
+
   when: join_cluster is succeeded
-  file:
-    path: ".kube/"
-    state: directory
-
-- name: Copy admin.conf to Home directory
-  when: join_cluster is succeeded
-  copy:
-    src: "{{ admin_config }}"
-    dest: ".kube/config"
-    owner: "{{ ansible_user | default(ansible_user_id) }}"
-    group: "{{ ansible_user | default(ansible_user_id) }}"
-    mode: 0755
-    remote_src: true

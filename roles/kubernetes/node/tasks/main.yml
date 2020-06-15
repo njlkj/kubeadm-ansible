@@ -4,22 +4,27 @@
     path: "/etc/kubernetes/kubelet.conf"
   register: kubelet_conf
 
-- name: Get ca cert hash
-  shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
-  delegate_to: "{{ groups.master.0 }}"
-  register: caCertHashes
-  run_once: yes
+- block:
 
-- set_fact: caCertHashes={{ caCertHashes.stdout }}
-  run_once: yes
+  - name: Get ca cert hash
+    shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
+    delegate_to: "{{ groups.master.0 }}"
+    register: caCertHashes
+    run_once: yes
+    changed_when: false
 
-- name: Join to cluster if needed
-  include_tasks: join.yml
+  - set_fact: caCertHashes={{ caCertHashes.stdout }}
+    run_once: yes
+    changed_when: false
+
+  - name: Join to cluster if needed
+    include_tasks: join.yml
+
+  - name: Enable and check kubelet service
+    systemd:
+      name: kubelet
+      daemon_reload: yes
+      state: started
+      enabled: yes
+
   when: not kubelet_conf.stat.exists
-
-- name: Enable and check kubelet service
-  systemd:
-    name: kubelet
-    daemon_reload: yes
-    state: started
-    enabled: yes

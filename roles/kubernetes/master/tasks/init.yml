@@ -3,33 +3,36 @@
   shell: "kubeadm reset --force"
   register: reset_cluster
 
-- set_fact: caCertHashes="init phases, no need caCertHashes"
 
-- name: Copy kubeadm conf to drop-in directory
+- block:
+
+  - name: Copy kubeadm conf to drop-in directory
+    template:
+      src: init.config.j2
+      dest: "{{ kubeadm_config }}"
+      backup: true
+
+  - name: Init Kubernetes cluster
+    shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
+    register: init_cluster
+
   when: reset_cluster is succeeded
-  template:
-    src: init.config.j2
-    dest: "{{ kubeadm_config }}"
-    backup: true
 
-- name: Init Kubernetes cluster
-  when: reset_cluster is succeeded
-  shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
-  register: init_cluster
+- block:
 
-- name: Create Kubernetes config directory
+  - name: Create Kubernetes config directory
+    file:
+      path: ".kube/"
+      state: directory
+
+  - name: Copy admin.conf to Home directory
+    copy:
+      src: "{{ admin_config }}"
+      dest: ".kube/config"
+      owner: "{{ ansible_user | default(ansible_user_id) }}"
+      group: "{{ ansible_user | default(ansible_user_id) }}"
+      mode: 0755
+      remote_src: true
+
   when: init_cluster is succeeded
-  file:
-    path: ".kube/"
-    state: directory
-
-- name: Copy admin.conf to Home directory
-  when: init_cluster is succeeded
-  copy:
-    src: "{{ admin_config }}"
-    dest: ".kube/config"
-    owner: "{{ ansible_user | default(ansible_user_id) }}"
-    group: "{{ ansible_user | default(ansible_user_id) }}"
-    mode: 0755
-    remote_src: true
 
