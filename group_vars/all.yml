@@ -2,17 +2,21 @@
 # ansible_user: likejun@oppo.com
 
 # InitConfiguration
+
 ## common
 token: b0f7b8.8d1767876297d85c
 token_ttl: 240000h
 certificate_key: e6a2eb8581237ab72a4f494f30285ec12a9694d750b9785706a83bfcbbbd2204
+
 ## nodeRegistration
+
 ### kubeletExtraArgs
 cgroup_driver: cgroupfs
 network_plugin: cni
 pod_infra_container_image: k8s.gcr.io/pause:3.2
 
 # ClusterConfiguration
+
 ## common
 kube_version: 1.18.3
 cluster_name: test-cluster
@@ -20,6 +24,7 @@ certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
 control_plane_ip: 192.168.202.21
 control_plane_endpoint: 192.168.202.21:6443
+
 ## apiServer
 tmp_etcd_servers: "{% for master_ip in groups['master'] %}https://{{ master_ip }}:2379,{% endfor %}"
 etcd_servers: "{{ tmp_etcd_servers.rstrip(',') }}"
@@ -28,6 +33,7 @@ etcd_servers: "{{ tmp_etcd_servers.rstrip(',') }}"
 service_subnet: "10.96.0.0/12"
 pod_subnet: "10.244.0.0/16"
 dns_domain: cluster.local
+
 ## etcd
 etcd_image_repository: k8s.gcr.io
 etcd_image_tag: 3.4.3-0
