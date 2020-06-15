@@ -15,4 +15,4 @@
   - name: Join to Kubernetes cluster
     shell: kubeadm join --config {{ kubeadm_config }}
 
-when: reset_cluster is succeeded
+  when: reset_cluster is succeeded
