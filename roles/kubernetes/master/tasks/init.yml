@@ -17,13 +17,6 @@
   shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
   register: init_cluster
 
-- name: Get ca cert hash
-  when: init_cluster is succeeded
-  shell: openssl x509 -pubkey -in {{ certificates_dir }}/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
-  register: caCertHashes
-
-- set_fact: caCertHashes={{ caCertHashes.stdout }}
-
 - name: Create Kubernetes config directory
   when: init_cluster is succeeded
   file:
