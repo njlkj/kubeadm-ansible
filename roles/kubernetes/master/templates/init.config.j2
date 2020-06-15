@@ -59,13 +59,14 @@ etcd:
     extraArgs:
       name: "etcd-{{ inventory_hostname }}"
     serverCertSANs:
-      {% for master_ip in groups["master"] %}
-      - "{{ master_ip}}"
-      {% endfor %}
+{% for master_ip in groups["master"] %}
+- "{{ master_ip }}"
+{% endfor %}
+
     peerCertSANs:
-      {% for master_ip in groups["master"] %}
-      - "{{ master_ip}}"
-      {% endfor %}
+{% for master_ip in groups["master"] %}
+- "{{ master_ip }}"
+{% endfor %}
 
 networking:
   serviceSubnet: "{{ service_subnet }}"
