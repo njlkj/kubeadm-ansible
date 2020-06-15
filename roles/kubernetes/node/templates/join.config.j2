@@ -3,7 +3,7 @@ apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
 discovery:
   bootstrapToken:
-    apiServerEndpoint: "{{ control_plane_endpoint }}:6443"
+    apiServerEndpoint: "{{ control_plane_endpoint }}"
     token: "{{ token }}"
     caCertHashes:
       - "{{ caCertHashes }}"

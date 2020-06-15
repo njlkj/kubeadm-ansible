@@ -6,9 +6,27 @@
 ```shell script
 # 查看证书有效期
 [root@master01 ~]# kubeadm alpha certs check-expiration 
+W0615 07:45:38.096669  120078 configset.go:76] Warning: No kubeproxy.config.k8s.io/v1alpha1 config is loaded. Continuing without it: configmaps "kube-proxy" not found
+
+CERTIFICATE                EXPIRES                  RESIDUAL TIME   CERTIFICATE AUTHORITY   EXTERNALLY MANAGED
+admin.conf                 May 22, 2120 11:45 UTC   99y                                     no      
+apiserver                  May 22, 2120 11:45 UTC   99y             ca                      no      
+apiserver-etcd-client      May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+apiserver-kubelet-client   May 22, 2120 11:45 UTC   99y             ca                      no      
+controller-manager.conf    May 22, 2120 11:45 UTC   99y                                     no      
+etcd-healthcheck-client    May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+etcd-peer                  May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+etcd-server                May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+front-proxy-client         May 22, 2120 11:45 UTC   99y             front-proxy-ca          no      
+scheduler.conf             May 22, 2120 11:45 UTC   99y                                     no      
+
+CERTIFICATE AUTHORITY   EXPIRES                  RESIDUAL TIME   EXTERNALLY MANAGED
+ca                      May 22, 2120 11:45 UTC   99y             no      
+etcd-ca                 May 22, 2120 11:45 UTC   99y             no      
+front-proxy-ca          May 22, 2120 11:45 UTC   99y             no
 ```
 
-### 使用
+### 执行命令
 ```shell script
 # 部署集群
 ansible-playbook -i hosts.ini site.yaml

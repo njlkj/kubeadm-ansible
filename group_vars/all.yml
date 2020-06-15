@@ -18,7 +18,8 @@ kube_version: 1.18.3
 cluster_name: test-cluster
 certificates_dir: /etc/kubernetes/pki
 image_repository: k8s.gcr.io
-control_plane_endpoint: 192.168.202.21
+control_plane_ip: 192.168.202.21
+control_plane_endpoint: 192.168.202.21:6443
 ## apiServer
 tmp_etcd_servers: "{% for master_ip in groups['master'] %}https://{{ master_ip }}:2379,{% endfor %}"
 etcd_servers: "{{ tmp_etcd_servers.rstrip(',') }}"

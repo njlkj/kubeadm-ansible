@@ -20,7 +20,7 @@ nodeRegistration:
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 kubernetesVersion: "v{{ kube_version }}"
-controlPlaneEndpoint: "{{ control_plane_endpoint }}:6443"
+controlPlaneEndpoint: "{{ control_plane_endpoint }}"
 certificatesDir: "{{ certificates_dir }}"
 imageRepository: "{{ image_repository }}"
 clusterName: "{{ cluster_name }}"
@@ -34,7 +34,7 @@ apiServer:
     etcd-servers: "{{ etcd_servers }}"
     v: "4"
   certSANs:
-    - "{{ control_plane_endpoint }}"
+    - "{{ control_plane_ip }}"
 {% for master_ip in groups["master"] %}
     - "{{ master_ip}}"
 {% endfor %}
