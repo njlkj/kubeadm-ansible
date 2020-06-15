@@ -1,7 +1,8 @@
 ---
-- name: Check if kubelet running
-  shell: "systemctl status kubelet.service|grep Active"
-  register: kubelet_status
+- name: Check if kubelet.conf exists
+  stat:
+    path: "/etc/kubernetes/kubelet.conf"
+  register: kubelet_conf
 
 - block:
 
@@ -25,4 +26,4 @@
       state: started
       enabled: yes
 
-  when: '"running" not in kubelet_status.stdout'
+  when: not kubelet_conf.stat.exists

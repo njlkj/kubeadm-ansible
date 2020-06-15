@@ -32,6 +32,8 @@ front-proxy-ca          May 22, 2120 11:45 UTC   99y             no
 ansible-playbook -i hosts.ini site.yaml
 # 删除集群
 ansible-playbook -i hosts.ini reset-site.yaml
+# 仅执行扩容
+ansible-playbook -i hosts.ini  site.yaml --tags node  -v 
 ```
 
 ### 查看集群
