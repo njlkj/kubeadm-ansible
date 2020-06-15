@@ -62,7 +62,6 @@ etcd:
 {% for master_ip in groups["master"] %}
       - "{{ master_ip }}"
 {% endfor %}
-
     peerCertSANs:
 {% for master_ip in groups["master"] %}
       - "{{ master_ip }}"
