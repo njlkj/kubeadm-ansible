@@ -1,31 +1,3 @@
-### 提示
-
-> 安装中使用的kubeadm是基于kabeadm-1.18.3源码重编译的版本,将证书有效期调整为100年
-> 编译方式参考文档[<<修改kubeadm 证书有效期>>](https://doc.myoas.com/pages/viewpage.action?pageId=268819673).
-
-```shell script
-# 查看证书有效期
-[root@master01 ~]# kubeadm alpha certs check-expiration 
-W0615 07:45:38.096669  120078 configset.go:76] Warning: No kubeproxy.config.k8s.io/v1alpha1 config is loaded. Continuing without it: configmaps "kube-proxy" not found
-
-CERTIFICATE                EXPIRES                  RESIDUAL TIME   CERTIFICATE AUTHORITY   EXTERNALLY MANAGED
-admin.conf                 May 22, 2120 11:45 UTC   99y                                     no      
-apiserver                  May 22, 2120 11:45 UTC   99y             ca                      no      
-apiserver-etcd-client      May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
-apiserver-kubelet-client   May 22, 2120 11:45 UTC   99y             ca                      no      
-controller-manager.conf    May 22, 2120 11:45 UTC   99y                                     no      
-etcd-healthcheck-client    May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
-etcd-peer                  May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
-etcd-server                May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
-front-proxy-client         May 22, 2120 11:45 UTC   99y             front-proxy-ca          no      
-scheduler.conf             May 22, 2120 11:45 UTC   99y                                     no      
-
-CERTIFICATE AUTHORITY   EXPIRES                  RESIDUAL TIME   EXTERNALLY MANAGED
-ca                      May 22, 2120 11:45 UTC   99y             no      
-etcd-ca                 May 22, 2120 11:45 UTC   99y             no      
-front-proxy-ca          May 22, 2120 11:45 UTC   99y             no
-```
-
 ### 执行命令
 ```shell script
 # 部署集群
@@ -99,4 +71,32 @@ Failed to get the status of endpoint 192.168.202.21:2379 (context deadline excee
 [root@master1 ~]# mv /etc/kubernetes/manifests/kube-controller-manager.yaml ~
 [root@master1 ~]# kubectl get ep kube-controller-manager -oyaml  -n kube-system  |grep holderIdentity
     control-plane.alpha.kubernetes.io/leader: '{"holderIdentity":"master2_b05d855f-6931-4fe0-aa9f-5e8d276c00ee","leaseDurationSeconds":15,"acquireTime":"2020-06-15T06:34:33Z","renewTime":"2020-06-15T06:40:35Z","leaderTransitions":2}'
+```
+
+### 证书有效期
+
+> 安装中使用的kubeadm是基于kabeadm-1.18.3源码重编译的版本,将证书有效期调整为100年;
+> 编译方式参考文档[<<修改kubeadm 证书有效期>>](https://doc.myoas.com/pages/viewpage.action?pageId=268819673).
+
+```shell script
+# 查看证书有效期
+[root@master01 ~]# kubeadm alpha certs check-expiration 
+W0615 07:45:38.096669  120078 configset.go:76] Warning: No kubeproxy.config.k8s.io/v1alpha1 config is loaded. Continuing without it: configmaps "kube-proxy" not found
+
+CERTIFICATE                EXPIRES                  RESIDUAL TIME   CERTIFICATE AUTHORITY   EXTERNALLY MANAGED
+admin.conf                 May 22, 2120 11:45 UTC   99y                                     no      
+apiserver                  May 22, 2120 11:45 UTC   99y             ca                      no      
+apiserver-etcd-client      May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+apiserver-kubelet-client   May 22, 2120 11:45 UTC   99y             ca                      no      
+controller-manager.conf    May 22, 2120 11:45 UTC   99y                                     no      
+etcd-healthcheck-client    May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+etcd-peer                  May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+etcd-server                May 22, 2120 11:45 UTC   99y             etcd-ca                 no      
+front-proxy-client         May 22, 2120 11:45 UTC   99y             front-proxy-ca          no      
+scheduler.conf             May 22, 2120 11:45 UTC   99y                                     no      
+
+CERTIFICATE AUTHORITY   EXPIRES                  RESIDUAL TIME   EXTERNALLY MANAGED
+ca                      May 22, 2120 11:45 UTC   99y             no      
+etcd-ca                 May 22, 2120 11:45 UTC   99y             no      
+front-proxy-ca          May 22, 2120 11:45 UTC   99y             no
 ```
