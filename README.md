@@ -1,4 +1,10 @@
-
+### 使用
+```shell script
+# 部署集群
+ansible-playbook -i hosts.ini site.yaml
+# 删除集群
+ansible-playbook -i hosts.ini reset-site.yaml
+```
 
 ### 查看集群
 ```shell script
