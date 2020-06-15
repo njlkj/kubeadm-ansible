@@ -12,7 +12,6 @@ cgroup_driver: cgroupfs
 network_plugin: cni
 pod_infra_container_image: k8s.gcr.io/pause:3.2
 
-
 # ClusterConfiguration
 ## common
 kube_version: v1.18.3
@@ -43,38 +42,9 @@ kube_api_burst: 150
 pod_pids_limit: 15000
 fail_swap_on: false
 
+# 其他参数
 systemd_dir: /lib/systemd/system
 system_env_dir: /etc/sysconfig
 network_dir: /etc/kubernetes/network
 kubeadm_config: /etc/kubernetes/kubeadm.conf
 admin_config: /etc/kubernetes/admin.conf
-kube_addon_dir: /etc/kubernetes/addon
-
-
-
-
-
-# Network implementation('flannel', 'calico', 'canal')
-network: calico
-
-# Change this to an appropriate interface, preferably a private network.
-# For example, on DigitalOcean, you would use eth1 as that is the default private network interface.
-network_interface: "ens33"
-
-enable_dashboard: no
-
-# A list of insecure registries you might need to define
-# insecure_registries: []
-insecure_registries: ['gcr.io']
-
-
-
-# Additional feature to install
-additional_features:
-  helm: false
-  metallb: false
-  healthcheck: false
-
-# temporary directory used by additional features
-tmp_dir: /tmp/kubeadm-ansible-files
-
