@@ -56,8 +56,7 @@ etcd:
     imageRepository: "k8s.gcr.io"
     imageTag: "3.4.3-0"
     dataDir: "/var/lib/etcd"
-    extraArgs:
-      listen-metrics-urls: "http://127.0.0.1:2381,http://{{ inventory_hostname }}:2381"
+#    extraArgs:
     serverCertSANs:
 {% for master_ip in groups["master"] %}
       - "{{ master_ip }}"
