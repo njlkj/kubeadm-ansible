@@ -17,3 +17,5 @@
     state: installed
   with_items: "{{ pkgs }}"
 
+- name: 使用定制的 kubeadm
+  copy: src=kubeadm dest=/usr/bin/kubeadm mode=755
