@@ -31,6 +31,18 @@
     - { name: 'vm.swappiness', value: '0' }
     - { name: 'net.bridge.bridge-nf-call-iptables', value: '1' }
 
+- name: 确保已卸载ntp
+  package: name=ntp state=absent
+
+- name: 安装 chrony
+  package: name=chrony state=latest
+
+- name: 配置 chrony server
+  template: src=server-centos.conf.j2 dest=/etc/chrony.conf
+
+- name: 启动 chrony server
+  service: name=chronyd state=restarted enabled=yes
+
 - name: Create service drop-in directory
   file:
     path: /etc/systemd/system/kubelet.service.d/
