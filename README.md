@@ -1,6 +1,12 @@
 ### 提示
 
-> bin/kubeadm 是基于kabeadm-1.18.3源码,重编译的版本,将证书过期时间调整为100年
+> 安装中使用的kubeadm是基于kabeadm-1.18.3源码重编译的版本,将证书有效期调整为100年
+> 编译方式参考文档[<<修改kubeadm 证书有效期>>](https://doc.myoas.com/pages/viewpage.action?pageId=268819673).
+
+```shell script
+# 查看证书有效期
+[root@master01 ~]# kubeadm alpha certs check-expiration 
+```
 
 ### 使用
 ```shell script
