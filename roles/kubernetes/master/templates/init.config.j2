@@ -35,9 +35,9 @@ apiServer:
     v: "4"
   certSANs:
     - "{{ control_plane_endpoint }}"
-    - "{{ groups.master.0 }}"
-    - "{{ groups.master.1 }}"
-    - "{{ groups.master.2 }}"
+    {% for master_ip in groups["master"] %}
+    - "{{ master_ip}}"
+    {% endfor %}
   timeoutForControlPlane: 4m0s
 
 controllerManager:
@@ -56,15 +56,16 @@ etcd:
     imageRepository: "k8s.gcr.io"
     imageTag: "3.4.3-0"
     dataDir: "/var/lib/etcd"
-#    extraArgs:
+    extraArgs:
+      name: "etcd-{{ inventory_hostname }}"
     serverCertSANs:
-      - "{{ groups.master.0 }}"
-      - "{{ groups.master.1 }}"
-      - "{{ groups.master.2 }}"
+      {% for master_ip in groups["master"] %}
+      - "{{ master_ip}}"
+      {% endfor %}
     peerCertSANs:
-      - "{{ groups.master.0 }}"
-      - "{{ groups.master.1 }}"
-      - "{{ groups.master.2 }}"
+      {% for master_ip in groups["master"] %}
+      - "{{ master_ip}}"
+      {% endfor %}
 
 networking:
   serviceSubnet: "{{ service_subnet }}"
