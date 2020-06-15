@@ -14,7 +14,6 @@
 
   - set_fact: caCertHashes={{ caCertHashes.stdout }}
     run_once: yes
-    changed_when: false
 
   - name: Copy kubeadm conf to drop-in directory
     template:

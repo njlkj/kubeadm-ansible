@@ -15,7 +15,6 @@
 
   - set_fact: caCertHashes={{ caCertHashes.stdout }}
     run_once: yes
-    changed_when: false
 
   - name: Join to cluster if needed
     include_tasks: join.yml
