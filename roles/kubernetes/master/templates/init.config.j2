@@ -35,9 +35,9 @@ apiServer:
     v: "4"
   certSANs:
     - "{{ control_plane_endpoint }}"
-    {% for master_ip in groups["master"] %}
+{% for master_ip in groups["master"] %}
     - "{{ master_ip}}"
-    {% endfor %}
+{% endfor %}
   timeoutForControlPlane: 4m0s
 
 controllerManager:
@@ -60,12 +60,12 @@ etcd:
       name: "etcd-{{ inventory_hostname }}"
     serverCertSANs:
 {% for master_ip in groups["master"] %}
-      - {{ master_ip }}
+      - "{{ master_ip }}"
 {% endfor %}
 
     peerCertSANs:
 {% for master_ip in groups["master"] %}
-      - {{ master_ip }}
+      - "{{ master_ip }}"
 {% endfor %}
 
 networking:
