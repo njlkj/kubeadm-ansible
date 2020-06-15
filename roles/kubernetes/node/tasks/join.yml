@@ -12,5 +12,12 @@
 
   - name: Join to Kubernetes cluster
     shell: kubeadm join --config {{ kubeadm_config }}
+    register: join_cluster
+
+  - name: 设置node节点role
+    shell: "{{ bin_dir }}/kubectl label node {{ inventory_hostname }} kubernetes.io/role=node --overwrite"
+    delegate_to: "{{ groups.master.0 }}"
+    ignore_errors: true
+    when: join_cluster is succeeded
 
   when: reset_cluster is succeeded
