@@ -14,6 +14,59 @@ ansible-playbook -i hosts.ini reset-site.yaml
 ansible-playbook -i hosts.ini  site.yaml --tags node  -v 
 ```
 
+### 新建集群 tasks
+```shell script
+
+  play #1 (kube-cluster): kube-cluster  TAGS: []
+    tasks:
+      docker : Install Docker container engine  TAGS: [docker]
+      docker : Copy Docker engine service file  TAGS: [docker]
+      docker : Copy Docker environment config file      TAGS: [docker]
+      docker : Add any insecure registries to Docker config     TAGS: [docker]
+      docker : Add registry to Docker config    TAGS: [docker]
+      docker : Enable and check Docker service  TAGS: [docker]
+
+  play #2 (master): master      TAGS: []
+    tasks:
+      commons/pre-install : Install Kubernetes packages TAGS: [master]
+      commons/pre-install : Remove firewalld    TAGS: [master]
+      commons/pre-install : Disable system swap TAGS: [master]
+      commons/pre-install : Remove current swaps from fstab     TAGS: [master]
+      commons/pre-install : Disable swappiness and pass bridged IPv4 traffic to iptable's chains        TAGS: [master]
+      commons/pre-install : 确保已卸载ntp       TAGS: [master]
+      commons/pre-install : 安装 chrony TAGS: [master]
+      commons/pre-install : 配置 chrony server  TAGS: [master]
+      commons/pre-install : 启动 chrony server  TAGS: [master]
+      commons/pre-install : Create service drop-in directory    TAGS: [master]
+      commons/pre-install : Copy kubeadm conf to drop-in directory      TAGS: [master]
+      commons/pre-install : Reload kubelet daemon       TAGS: [master]
+      kubernetes/master : Check if kubeadm has already run      TAGS: [master]
+      kubernetes/master : Init cluster if needed        TAGS: [master]
+      kubernetes/master : Join cluster if needed        TAGS: [master]
+      kubernetes/master : Create Kubernetes config directory    TAGS: [master]
+      kubernetes/master : Copy admin.conf to Home directory     TAGS: [master]
+
+  play #3 (node): node  TAGS: []
+    tasks:
+      commons/pre-install : Install Kubernetes packages TAGS: [node]
+      commons/pre-install : Remove firewalld    TAGS: [node]
+      commons/pre-install : Disable system swap TAGS: [node]
+      commons/pre-install : Remove current swaps from fstab     TAGS: [node]
+      commons/pre-install : Disable swappiness and pass bridged IPv4 traffic to iptable's chains        TAGS: [node]
+      commons/pre-install : 确保已卸载ntp       TAGS: [node]
+      commons/pre-install : 安装 chrony TAGS: [node]
+      commons/pre-install : 配置 chrony server  TAGS: [node]
+      commons/pre-install : 启动 chrony server  TAGS: [node]
+      commons/pre-install : Create service drop-in directory    TAGS: [node]
+      commons/pre-install : Copy kubeadm conf to drop-in directory      TAGS: [node]
+      commons/pre-install : Reload kubelet daemon       TAGS: [node]
+      kubernetes/node : Check if kubelet.conf exists    TAGS: [node]
+      kubernetes/node : Get ca cert hash        TAGS: [node]
+      set_fact  TAGS: [node]
+      kubernetes/node : Join to cluster if needed       TAGS: [node]
+      kubernetes/node : Enable and check kubelet service        TAGS: [node]
+```
+
 ### 查看集群
 ```shell script
 [root@master1 ~]# kubectl get node
