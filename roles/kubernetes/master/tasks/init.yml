@@ -12,7 +12,7 @@
       backup: true
 
   - name: Init Kubernetes cluster
-    shell: kubeadm init --config {{ kubeadm_config }} --upload-certs --skip-phases addon
+    shell: kubeadm init --config {{ kubeadm_config }} --upload-certs
     register: init_cluster
 
   when: reset_cluster is succeeded
