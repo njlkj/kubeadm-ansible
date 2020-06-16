@@ -1,3 +1,9 @@
+# kubeadm-ansible
+通过ansible playbook和kubeadm部署高可用kubernetes集群.
+
+## 高可用架构
+![Stacked etcd topology ](./kubeadm-ha-topology-stacked-etcd.svg)
+
 ### 执行命令
 ```shell script
 # 部署集群
@@ -73,7 +79,7 @@ Failed to get the status of endpoint 192.168.202.21:2379 (context deadline excee
     control-plane.alpha.kubernetes.io/leader: '{"holderIdentity":"master2_b05d855f-6931-4fe0-aa9f-5e8d276c00ee","leaseDurationSeconds":15,"acquireTime":"2020-06-15T06:34:33Z","renewTime":"2020-06-15T06:40:35Z","leaderTransitions":2}'
 ```
 
-### 证书有效期
+### 修改证书有效期
 
 > 安装中使用的kubeadm是基于kabeadm-1.18.3源码重编译的版本,将证书有效期调整为100年;
 > 编译方式参考文档[<<修改kubeadm 证书有效期>>](https://doc.myoas.com/pages/viewpage.action?pageId=268819673).
