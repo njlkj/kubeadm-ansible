@@ -55,3 +55,12 @@ system_env_dir: /etc/sysconfig
 network_dir: /etc/kubernetes/network
 kubeadm_config: /etc/kubernetes/kubeadm.conf
 admin_config: /etc/kubernetes/admin.conf
+
+# Network implementation('flannel', 'calico', 'canal')
+network: flannel
+
+# Change this to an appropriate interface, preferably a private network.
+# For example, on DigitalOcean, you would use eth1 as that is the default private network interface.
+network_interface: ""
+
+enable_dashboard: yes
